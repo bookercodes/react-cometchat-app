@@ -1,33 +1,20 @@
-import React from 'react';
-import chat from '../lib/chat';
+import React from "react";
+import { Redirect } from "react-router-dom";
+import chat from "../lib/chat";
 
 class Groupchat extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      receiverID: '',
+      receiverID: "",
       messageText: null,
       groupMessage: [],
-      user: {}
+      user: {},
+      isAuthenticated: true
     };
 
-    this.GUID = 'supergroup';
-  }
-
-
-  componentDidMount() {
-    this.getUser();
-    this.update()
-  }
-
-  update() {
-    chat.getGroupMessages(this.GUID, this.scrollToBottom).then(messages => {
-      this.setState({ groupMessage: messages });
-    })
-      .catch(error => {
-        console.log("Message fetching failed with error:", error);
-      })
+    this.GUID = "supergroup";
   }
 
   send() {
@@ -35,7 +22,7 @@ class Groupchat extends React.Component {
       message => {
         console.log("Message sent successfully:", message);
         this.setState({ messageText: null });
-        this.update();
+        // this.update();
       },
       error => {
         console.log("Message sending failed with error:", error);
@@ -44,61 +31,82 @@ class Groupchat extends React.Component {
   }
 
   scrollToBottom = () => {
-    const chat = document.querySelectorAll(".chat")[0];
+    const chat = document.getElementById("chatList");
     chat.scrollTop = chat.scrollHeight;
-  }
+  };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
     this.send();
     e.target.reset();
-  }
+  };
 
-  //get the chat message from the text box and update the state with the new value
-  handleChange = (e) => {
+  handleChange = e => {
     this.setState({ messageText: e.target.value });
-  }
+  };
 
-  // Get the current logged in user
 
   getUser = () => {
-    chat.getLoggedinUser().then(user => {
-      console.log("user details:", { user });
-      this.setState({ user });
-    },
-    ).catch(error => {
-      console.log("error getting details:", { error });
-    })
+    chat
+      .getLoggedinUser()
+      .then(user => {
+        console.log("user details:", { user });
+        this.setState({ user });
+      })
+      .catch(({ error }) => {
+        if (error.code === "USER_NOT_LOGED_IN") {
+          this.setState({
+            isAuthenticated: false
+          });
+        }
+      });
+  };
+
+  messageListener = () => {
+    chat.addMessageListener((data, error) => {
+      if (error) return console.log(`error: ${error}`);
+      this.setState(prevState => ({
+        groupMessage: [...prevState.groupMessage, data]
+      }), () => {
+        this.scrollToBottom();
+      });
+    });
+  };
+
+  componentDidMount() {
+    this.getUser();
+    this.messageListener();
   }
 
   render() {
+    const { isAuthenticated } = this.state;
+    if (!isAuthenticated) {
+      return <Redirect to="/" />;
+    }
     return (
       <React.Fragment>
         <div className="chatWindow">
-          <ol className="chat">
-            {this.state.groupMessage.map(data => (
+          <ul className="chat" id="chatList">
+            {this.state.groupMessage.map((data, index) => (
               <div>
-                {/* Render loggedin user chat at the right side of the page */}
-
                 {this.state.user.uid === data.sender.uid ? (
-                  <li className="self" key={data.id}>
+                  <li className="self" key={`${data.id}${index}`}>
                     <div className="msg">
                       <p>{data.sender.uid}</p>
                       <div className="message"> {data.data.text}</div>
                     </div>
                   </li>
                 ) : (
-                    // render loggedin users chat at the left side of the chatwindow
-                    <li className="other" key={data.id}>
-                      <div className="msg">
-                        <p>{data.sender.uid}</p>
-                        <div className="message"> {data.data.text} </div>
-                      </div>
-                    </li>
-                  )}
+                  <li className="other" key={`${data.id}${index}`}>
+                    <div className="msg">
+                      <p>{data.sender.uid}</p>
+                      <div className="message"> {data.data.text} </div>
+                    </div>
+                  </li>
+                )}
               </div>
             ))}
-          </ol>
+          </ul>
           <div className="chatInputWrapper">
             <form onSubmit={this.handleSubmit}>
               <input

@@ -2,11 +2,48 @@
 
 .App {
   text-align: center;
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
 }
 
 .App-logo {
-  animation: App-logo-spin infinite .5s linear;
+  animation: App-logo-spin infinite 0.5s linear;
   height: 10vmin;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form input[type="text"] {
+  width: 300px;
+  height: 30px;
+  margin-bottom: 10px;
+}
+
+.form input[type="submit"] {
+  padding: 5px;
+  height: 30px;
+  border: none;
+  background-color: #187dbc;
+  color: #fff;
+}
+
+.form input[type="submit"]:hover {
+  border: #fff;
+  cursor: pointer;
+  background-color: #000;
+  color: #fff;
+}
+.error{
+  color: red;
+  font-size: 10px;
+  text-align: center;
 }
 
 @keyframes App-logo-spin {
@@ -18,8 +55,7 @@
   }
 }
 
-
-.message{
+.message {
   font-size: 10px !important;
 }
 
@@ -36,69 +72,6 @@ body {
   grid-template-rows: repeat(1, 50px);
   grid-gap: 3px;
   margin-top: 15px;
-}
-
-/* General Buttons */
-.button {
-  width: 130px;
-  height: 40px;
-  background: linear-gradient(to bottom, #4eb5e5 0%, #389ed5 100%); /* W3C */
-  border: none;
-  border-radius: 5px;
-  position: relative;
-  border-bottom: 4px solid #2b8bc6;
-  color: #fbfbfb;
-  font-weight: 600;
-  font-family: "Open Sans", sans-serif;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.4);
-  font-size: 15px;
-  text-align: left;
-  text-indent: 5px;
-  box-shadow: 0px 3px 0px 0px rgba(0, 0, 0, 0.2);
-  cursor: pointer;
-
-  /* Just for presentation */
-  display: block;
-  margin: 0 auto;
-  margin-bottom: 20px;
-}
-.button:active {
-  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.2);
-}
-
-.button:after {
-  content: "";
-  width: 0;
-  height: 0;
-  display: block;
-  border-top: 20px solid #187dbc;
-  border-bottom: 20px solid #187dbc;
-  border-left: 16px solid transparent;
-  border-right: 20px solid #187dbc;
-  position: absolute;
-  opacity: 0.6;
-  right: 0;
-  top: 0;
-  border-radius: 0 5px 5px 0;
-}
-
-/* Button pointing left */
-
-.button.back {
-  text-align: right;
-  padding-right: 12px;
-  box-sizing: border-box;
-}
-
-/* Single buttons */
-
-.button.site {
-  width: 40px;
-  text-align: center;
-  text-indent: 0;
-}
-.button.site:after {
-  display: none;
 }
 
 .group {
@@ -125,160 +98,8 @@ body {
   grid-row-end: 190;
 }
 
-.chatInputWrapper > input {
-}
-
-.groupList {
-  display: grid;
-  color: white;
-  max-height: 200px;
-  overflow: scroll;
-
-  /* grid-gap: 10px; */
-}
 ::-webkit-scrollbar {
   display: none;
-}
-.groupList > ul > li {
-  padding-right: 5px;
-  padding-bottom: 5px;
-  list-style-type: none;
-}
-.groupList > ul > li > div {
-  grid-column-start: 1;
-  grid-column-end: 3;
-
-  border: 2px;
-  border-radius: 2px;
-  background: #187dbc;
-  box-shadow: inset 0 0 7px px rgba(255, 255, 255, 0.5);
-  text-align: center;
-  height: 25px;
-  padding-top: 7px;
-  text-transform: uppercase;
-  border-radius: 10px;
-}
-
-.groupList > ul > li > div:hover {
-  background: rgb(255, 255, 255);
-  cursor: -webkit-grabbing;
-  cursor: -webkit-grab;
-  color: #187dbc;
-  border-radius: 10px;
-}
-
-.modal-close {
-  color: #aaa;
-  line-height: 50px;
-  font-size: 80%;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 70px;
-  text-decoration: none;
-}
-.modal-close:hover {
-  color: #000;
-}
-.groupname {
-  width: 100%;
-  height: 50px;
-  background: #fafafa;
-  border: none;
-  outline: none;
-  padding-left: 55px;
-  padding-right: 55px;
-  color: #666;
-  font-weight: 400;
-  margin-bottom: 10px;
-  -moz-user-focus: initial;
-}
-.modalbutton {
-  background: rgb(211, 25, 0);
-}
-
-.modalbutton:after {
-  content: "";
-  width: 0;
-  height: 0;
-  display: block;
-  border-top: 20px solid #bc1865;
-  border-bottom: 20px solid #bc1865;
-  border-left: 16px solid transparent;
-  border-right: 20px solid #bc1865;
-  position: absolute;
-  opacity: 0.6;
-  right: 0;
-  top: 0;
-  border-radius: 0 5px 5px 0;
-}
-/* Modal */
-.createGroupBtn > .a {
-  text-decoration: none;
-  color: white;
-}
-.createGroupBtn {
-  top: 300px;
-}
-
-::selection {
-  background: rgba(82, 179, 217, 0.3);
-  color: inherit;
-}
-a {
-  color: rgba(82, 179, 217, 0.9);
-}
-
-/* M E N U */
-
-.back {
-  position: absolute;
-  width: 90px;
-  height: 50px;
-  top: 0px;
-  left: 0px;
-  color: #fff;
-  line-height: 50px;
-  font-size: 30px;
-  padding-left: 10px;
-  cursor: pointer;
-}
-.back img {
-  position: absolute;
-  top: 5px;
-  left: 30px;
-  width: 40px;
-  height: 40px;
-  background-color: rgba(255, 255, 255, 0.98);
-  border-radius: 100%;
-  -webkit-border-radius: 100%;
-  -moz-border-radius: 100%;
-  -ms-border-radius: 100%;
-  margin-left: 15px;
-}
-.back:active {
-  background: rgba(255, 255, 255, 0.2);
-}
-.name {
-  position: absolute;
-  top: 3px;
-  left: 110px;
-  font-family: "Lato";
-  font-size: 25px;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.98);
-  cursor: default;
-}
-.last {
-  position: absolute;
-  top: 30px;
-  left: 115px;
-  font-family: "Lato";
-  font-size: 11px;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.6);
-  cursor: default;
 }
 
 /* M E S S A G E S */
@@ -292,6 +113,7 @@ a {
   margin-bottom: 10px;
   max-height: 400px;
   overflow: scroll;
+  scroll-behavior: smooth;
 }
 .chat li {
   padding: 0.5rem;

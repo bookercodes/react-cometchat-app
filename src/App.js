@@ -10,6 +10,7 @@ class App extends Component {
   componentDidMount() {
     chat.init();
   }
+
   render() {
     return (
       <Switch>

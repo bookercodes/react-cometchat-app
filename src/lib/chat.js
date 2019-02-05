@@ -3,7 +3,7 @@ import { CometChat } from "@cometchat-pro/chat";
 
 export default class CCManager {
   static cometchat = null;
-
+  static LISTENER_KEY_MESSAGE = "msglistener";
 
   static appId = '1395138329277';     //Enter your App ID
   static apiKey = '59802d7162a931126d875da1dbe02597e323efa1';    //Enter your API KEY
@@ -12,7 +12,7 @@ export default class CCManager {
 
   static init() {
     //initialize cometchat manager
-    CometChat.init(this.appId);
+    return CometChat.init(CCManager.appId);
   }
 
   static getTextMessage(uid, text, msgType) {
@@ -28,7 +28,9 @@ export default class CCManager {
   }
 
   static login(UID) {
-    return CometChat.login(UID, this.apiKey)
+    return CometChat.init(CCManager.appId).then(user => {
+      return CometChat.login(UID, this.apiKey)
+    })
   }
 
 
@@ -51,6 +53,21 @@ export default class CCManager {
 
   static joinGroup(GUID) {
     return CometChat.joinGroup(GUID, CometChat.GROUP_TYPE.PUBLIC, '')
+  }
+
+  static addMessageListener(callback){
+    CometChat.addMessageListener(
+      this.LISTENER_KEY_MESSAGE,
+      new CometChat.MessageListener({
+        onTextMessageReceived: textMessage => {
+          callback(textMessage)
+        },
+        onMediaMessageReceived: mediaMessage => {
+          console.log("Media message received successfully", mediaMessage);
+          // Handle media message
+        }
+      })
+    );
   }
 
 }
