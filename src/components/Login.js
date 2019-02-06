@@ -51,10 +51,6 @@ class Login extends React.Component {
     }));
   };
 
-  componentDidUpdate() {
-    chat.init();
-  }
-
   handleInputChange = e => {
     this.setState({
       username: e.target.value
