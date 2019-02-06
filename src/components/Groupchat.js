@@ -17,7 +17,8 @@ class Groupchat extends React.Component {
     this.GUID = "supergroup";
   }
 
-  send() {
+  // send messages to the group
+  sendMessage() {
     chat.sendGroupMessage(this.GUID, this.state.messageText).then(
       message => {
         console.log("Message sent successfully:", message);
@@ -30,6 +31,7 @@ class Groupchat extends React.Component {
     );
   }
 
+  // function to always show the bottom of the chat screen
   scrollToBottom = () => {
     const chat = document.getElementById("chatList");
     chat.scrollTop = chat.scrollHeight;
@@ -37,7 +39,7 @@ class Groupchat extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.send();
+    this.sendMessage();
     event.target.reset();
   };
 
