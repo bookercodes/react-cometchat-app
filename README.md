@@ -51,10 +51,6 @@ Please Check **package.json** file for the dependency list.
   
 Please change  `appId` and `apiKey` in *src/lib/chat.js* to the provided credentials.
 
- ![Studio Guide](https://github.com/CometChat-Pulse/javascript-reactjs-chat-app/blob/master/screenshots/code.png)   
-
-<br></br>
-
 ## Run the Demo App
 
 
