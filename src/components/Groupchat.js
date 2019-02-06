@@ -35,16 +35,15 @@ class Groupchat extends React.Component {
     chat.scrollTop = chat.scrollHeight;
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
+  handleSubmit = event => {
+    event.preventDefault();
     this.send();
-    e.target.reset();
+    event.target.reset();
   };
 
-  handleChange = e => {
-    this.setState({ messageText: e.target.value });
+  handleChange = event => {
+    this.setState({ messageText: event.target.value });
   };
-
 
   getUser = () => {
     chat
@@ -65,11 +64,14 @@ class Groupchat extends React.Component {
   messageListener = () => {
     chat.addMessageListener((data, error) => {
       if (error) return console.log(`error: ${error}`);
-      this.setState(prevState => ({
-        groupMessage: [...prevState.groupMessage, data]
-      }), () => {
-        this.scrollToBottom();
-      });
+      this.setState(
+        prevState => ({
+          groupMessage: [...prevState.groupMessage, data]
+        }),
+        () => {
+          this.scrollToBottom();
+        }
+      );
     });
   };
 
@@ -84,43 +86,39 @@ class Groupchat extends React.Component {
       return <Redirect to="/" />;
     }
     return (
-      <React.Fragment>
-        <div className="chatWindow">
-          <ul className="chat" id="chatList">
-            {this.state.groupMessage.map((data, index) => (
-              <div>
-                {this.state.user.uid === data.sender.uid ? (
-                  <li className="self" key={`${data.id}${index}`}>
-                    <div className="msg">
-                      <p>{data.sender.uid}</p>
-                      <div className="message"> {data.data.text}</div>
-                    </div>
-                  </li>
-                ) : (
-                  <li className="other" key={`${data.id}${index}`}>
-                    <div className="msg">
-                      <p>{data.sender.uid}</p>
-                      <div className="message"> {data.data.text} </div>
-                    </div>
-                  </li>
-                )}
-              </div>
-            ))}
-          </ul>
-          <div className="chatInputWrapper">
-            <form onSubmit={this.handleSubmit}>
-              <input
-                className="textarea input"
-                type="text"
-                placeholder="Type a message..."
-                onChange={this.handleChange}
-              />
-            </form>
-
-            <div className="emojis" />
-          </div>
+      <div className="chatWindow">
+        <ul className="chat" id="chatList">
+          {this.state.groupMessage.map(data => (
+            <div key={data.id}>
+              {this.state.user.uid === data.sender.uid ? (
+                <li className="self">
+                  <div className="msg">
+                    <p>{data.sender.uid}</p>
+                    <div className="message"> {data.data.text}</div>
+                  </div>
+                </li>
+              ) : (
+                <li className="other">
+                  <div className="msg">
+                    <p>{data.sender.uid}</p>
+                    <div className="message"> {data.data.text} </div>
+                  </div>
+                </li>
+              )}
+            </div>
+          ))}
+        </ul>
+        <div className="chatInputWrapper">
+          <form onSubmit={this.handleSubmit}>
+            <input
+              className="textarea input"
+              type="text"
+              placeholder="Enter your message..."
+              onChange={this.handleChange}
+            />
+          </form>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

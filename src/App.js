@@ -3,13 +3,8 @@ import { Route, Redirect, Switch } from 'react-router-dom';
 import './App.css';
 import Login from './components/Login';
 import Groupchat from './components/Groupchat';
-import chat from './lib/chat';
 
 class App extends Component {
-
-  componentDidMount() {
-    chat.init();
-  }
 
   render() {
     return (

@@ -4,6 +4,9 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import chat from './lib/chat';
+
+chat.init();
 
 ReactDOM.render(
     <Router>

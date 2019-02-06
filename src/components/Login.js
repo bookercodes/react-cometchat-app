@@ -41,10 +41,6 @@ class Login extends React.Component {
       });
   };
 
-  componentDidMount() {
-    chat.init();
-  }
-
   toggleIsSubmitting = () => {
     this.setState(prevState => ({
       isSubmitting: !prevState.isSubmitting
